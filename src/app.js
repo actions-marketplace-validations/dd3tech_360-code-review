@@ -18,6 +18,11 @@ module.exports = (app) => {
 		const code = files.map((file) => file.contents).join('\n')
 		const codeReview = await generateReviewComments(code)
 	
+		if(!codeReview) {
+			console.log('Code review not found')
+			return
+		}
+
 		await octokit.pulls.createReview({
 			owner: pr.base.repo.owner.login,
 			repo: pr.base.repo.name,
